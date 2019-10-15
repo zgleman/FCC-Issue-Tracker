@@ -36,17 +36,18 @@ module.exports = function (app) {
     
     .post(function (req, res){
       var project = req.params.project;
-      const incoming = new Issue({
-      issue_title:	req.params.issue_title,
-      issue_text: req.params.issue_text,
+      const newIssue = new Issue({
+      issue_title:	req.body.issue_title,
+      issue_text: req.body.issue_text,
       created_on:	new Date(),
-      created_by:	req.params.created_by || "",
-      assigned_to:	req.params.assigned_to || "",
+      updated_on:	new Date(),
+      created_by:	req.body.created_by || "",
+      assigned_to:	req.body.assigned_to || "",
       open:	true,
-      status_text:	req.params.status_text || ""
+      status_text:	req.body.status_text || ""
       });
-    incoming.save();
-    res.json({incoming});
+    newIssue.save();
+    res.json({newIssue});
       
     })
     
