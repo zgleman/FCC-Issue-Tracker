@@ -47,7 +47,7 @@ module.exports = function (app) {
       status_text:	req.body.status_text || ""
       });
     newIssue.save();
-    res.json({newIssue});
+    res.json({});
       
     })
     
