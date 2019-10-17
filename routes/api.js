@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 mongoose.connect(CONNECTION_STRING, {useNewUrlParser: true});
 const Issue = mongoose.model('Issue', {
+  _id: String,
 issue_title:	String,
 issue_text: String,
 created_on:	Date,
@@ -31,7 +32,10 @@ module.exports = function (app) {
   
     .get(function (req, res){
       var project = req.params.project;
-      
+      Issue.find({}, function(err, data){
+        if (err) return (err);
+        
+      })
     })
     
     .post(function (req, res){
