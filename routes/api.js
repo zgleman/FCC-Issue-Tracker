@@ -50,8 +50,8 @@ module.exports = function (app) {
       open:	true,
       status_text:	req.body.status_text || ""
       }, function(err, data){
-        if (err) return res.send({error:'Error saving to database'});
-        res.send(data);
+        if (err) return res.json({error:'Error saving to database'});
+        res.json(data);
       });
   
     
@@ -66,7 +66,13 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       var project = req.params.project;
-      
+      if (req.body._id == undefined) {
+        res.json({error: '_id error'});
+      } else
+      Issue.findByIdAndDelete(req.body._id, function(err){
+        if (err) return res.json({failed: 'could not delete ' + req.body._id})
+        res.json({success:  'deleted '+ req.body._id})
+      })
     });
     
 };
