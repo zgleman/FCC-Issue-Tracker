@@ -34,13 +34,14 @@ module.exports = function (app) {
       var project = req.params.project;
       Issue.find({}, function(err, data){
         if (err) return (err);
-        
+        res.send(data);
       })
     })
     
     .post(function (req, res){
       var project = req.params.project;
-      const newIssue = new Issue({
+      Issue.create({
+      _id: ObjectId,
       issue_title:	req.body.issue_title,
       issue_text: req.body.issue_text,
       created_on:	new Date(),
@@ -49,9 +50,9 @@ module.exports = function (app) {
       assigned_to:	req.body.assigned_to || "",
       open:	true,
       status_text:	req.body.status_text || ""
-      });
-    newIssue.save();
-    res.json({});
+      }, function(err));
+  
+    
       
     })
     
