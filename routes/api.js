@@ -31,7 +31,7 @@ module.exports = function (app) {
   
     .get(function (req, res){
       var project = req.params.project;
-      Issue.find({})
+      
     })
     
     .post(function (req, res){
