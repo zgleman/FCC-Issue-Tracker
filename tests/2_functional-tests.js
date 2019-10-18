@@ -80,11 +80,43 @@ suite('Functional Tests', function() {
     suite('PUT /api/issues/{project} => text', function() {
       
       test('No body', function(done) {
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({
+          _id: '5da98660bae4da6a8c88e79d',
+          issue_title: '',
+          issue_text: '',
+          created_by: '',
+          assigned_to: '',
+          status_text: '',
+          open: undefined
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.error, 'No updated field sent');
+          
+          done();
+        })
       });
       
       test('One field to update', function(done) {
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({
+          _id: '5da98660bae4da6a8c88e79d',
+          issue_title: '',
+          issue_text: '',
+          created_by: 'One Field to update',
+          assigned_to: '',
+          status_text: '',
+          open: undefined
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.success, 'Successfully updated 5da98660bae4da6a8c88e79d');
+          
+          done();
+        })
       });
       
       test('Multiple fields to update', function(done) {
