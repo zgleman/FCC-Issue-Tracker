@@ -204,7 +204,7 @@ suite('Functional Tests', function() {
           assert.property(res.body[0], 'status_text');
           assert.property(res.body[0], '_id');
           res.body.forEach((d) => {assert.equal(d.issue_title, 'Required');});
-          res.body.forEach((d) => {assert.(d.created_on, d2);});
+          res.body.forEach((d) => {assert.isAbove(new Date(d.created_on), new Date('2019-10-17'));});
           
           done();
         });
@@ -215,11 +215,29 @@ suite('Functional Tests', function() {
     suite('DELETE /api/issues/{project} => text', function() {
       
       test('No _id', function(done) {
-        
+        chai.request(server)
+        .delete('/api/issues/test')
+        .send({_id: ''
+        })
+        .end(function(err, res){
+          assert.equal(res.body.error, '_id error');
+          done();
+        })
       });
       
       test('Valid _id', function(done) {
-        
+        chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: '',
+          issue_text:'',
+          
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.error, 'Please submit required fields');
+          done();
+        })
       });
       
     });
