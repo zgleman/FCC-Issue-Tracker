@@ -113,14 +113,30 @@ suite('Functional Tests', function() {
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.success, 'Successfully updated 5da98660bae4da6a8c88e79d');
+          assert.equal(res.body.success, 'successfully updated 5da98660bae4da6a8c88e79d');
           
           done();
         })
       });
       
       test('Multiple fields to update', function(done) {
-        
+        chai.request(server)
+        .put('/api/issues/test')
+        .send({
+          _id: '5da98660bae4da6a8c88e79d',
+          issue_title: '',
+          issue_text: '',
+          created_by: 'Multiple Fields to update',
+          assigned_to: 'Multiple Fields to update',
+          status_text: '',
+          open: undefined
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.success, 'successfully updated 5da98660bae4da6a8c88e79d');
+          
+          done();
+        })
       });
       
     });
@@ -129,7 +145,7 @@ suite('Functional Tests', function() {
       
       test('No filter', function(done) {
         chai.request(server)
-        .get('/api/issues/apitest')
+        .get('/api/issues/test')
         .query({})
         .end(function(err, res){
           assert.equal(res.status, 200);
