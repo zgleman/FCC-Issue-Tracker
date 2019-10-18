@@ -60,21 +60,23 @@ module.exports = function (app) {
     
     .put(function (req, res){
       var project = req.params.project;
-      if (req.body.issue_title == undefined && req.body.issue_text == undefined && req.body.created_by == undefined 
-          && req.body.assigned_to == undefined && req.body.status_text == undefined && req.body.open == undefined) {
+        
+      if (req.body.issue_title == '' && req.body.issue_text == '' && req.body.created_by == ''
+          && req.body.assigned_to == '' && req.body.status_text == '' && req.body.open == undefined) {
         res.json({error: 'No updated field sent'});
       } else 
       Issue.findById(req.body._id, function(err, data){
         if (err) return res.json({error: 'could not update' + req.body._id});
-        req.body.issue_title !== undefined ? data.issue_title = req.body.issue_title : null;
-        req.body.issue_text !== undefined ? data.issue_text = req.body.issue_text : null;
-        req.body.created_by !== undefined ? data.created_by = req.body.created_by : null; 
-        req.body.assigned_to !== undefined ? data.assigned_to = req.body.assigned_to : null;
-        req.body.status_text !== undefined ? data.status_text = req.body.status_text : null;
+        req.body.issue_title !== '' ? data.issue_title = req.body.issue_title : null;
+        req.body.issue_text !== '' ? data.issue_text = req.body.issue_text : null;
+        req.body.created_by !== '' ? data.created_by = req.body.created_by : null; 
+        req.body.assigned_to !== '' ? data.assigned_to = req.body.assigned_to : null;
+        req.body.status_text !== '' ? data.status_text = req.body.status_text : null;
         req.body.open !== undefined ? data.open = req.body.open : null;
-        data.save(function(err, done){
+        data.updated_on = new Date();
+        data.save(function(err){
           if (err) return res.json({error: 'could not update' + req.body._id});
-          done()
+          res.json({success: 'successfully updated ' + req.body._id})
         })
         
       })
@@ -82,7 +84,7 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       var project = req.params.project;
-      if (req.body._id == undefined) {
+      if (req.body._id == '') {
         res.json({error: '_id error'});
       } else
       Issue.findByIdAndDelete(req.body._id, function(err){
