@@ -60,9 +60,24 @@ module.exports = function (app) {
     
     .put(function (req, res){
       var project = req.params.project;
-      if (req.body.issue_title == undefined && req.body.issue_text == undefined && req.body.issue_title == undefined 
-          && req.body.issue_title == undefined && req.body.issue_title == undefined && req.body.issue_title == undefined && )
-      
+      if (req.body.issue_title == undefined && req.body.issue_text == undefined && req.body.created_by == undefined 
+          && req.body.assigned_to == undefined && req.body.status_text == undefined && req.body.open == undefined) {
+        res.json({error: 'No updated field sent'});
+      } else 
+      Issue.findById(req.body._id, function(err, data){
+        if (err) return res.json({error: 'could not update' + req.body._id});
+        req.body.issue_title !== undefined ? data.issue_title = req.body.issue_title : null;
+        req.body.issue_text !== undefined ? data.issue_text = req.body.issue_text : null;
+        req.body.created_by !== undefined ? data.created_by = req.body.created_by : null; 
+        req.body.assigned_to !== undefined ? data.assigned_to = req.body.assigned_to : null;
+        req.body.status_text !== undefined ? data.status_text = req.body.status_text : null;
+        req.body.open !== undefined ? data.open = req.body.open : null;
+        data.save(function(err, done){
+          if (err) return res.json({error: 'could not update' + req.body._id});
+          done()
+        })
+        
+      })
     })
     
     .delete(function (req, res){
