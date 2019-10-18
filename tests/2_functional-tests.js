@@ -83,7 +83,7 @@ suite('Functional Tests', function() {
         chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: '5da98660bae4da6a8c88e79d',
+          _id: '5da99c1008a5c800812de9ae',
           issue_title: '',
           issue_text: '',
           created_by: '',
@@ -103,7 +103,7 @@ suite('Functional Tests', function() {
         chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: '5da98660bae4da6a8c88e79d',
+          _id: '5da99c1008a5c800812de9ae',
           issue_title: '',
           issue_text: '',
           created_by: 'One Field to update',
@@ -113,7 +113,7 @@ suite('Functional Tests', function() {
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.success, 'successfully updated 5da98660bae4da6a8c88e79d');
+          assert.equal(res.body.success, 'successfully updated 5da99c1008a5c800812de9ae');
           
           done();
         })
@@ -123,7 +123,7 @@ suite('Functional Tests', function() {
         chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: '5da98660bae4da6a8c88e79d',
+          _id: '5da99c1008a5c800812de9ae',
           issue_title: '',
           issue_text: '',
           created_by: 'Multiple Fields to update',
@@ -133,7 +133,7 @@ suite('Functional Tests', function() {
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.success, 'successfully updated 5da98660bae4da6a8c88e79d');
+          assert.equal(res.body.success, 'successfully updated 5da99c1008a5c800812de9ae');
           
           done();
         })
@@ -164,7 +164,27 @@ suite('Functional Tests', function() {
       });
       
       test('One filter', function(done) {
-        
+        chai.request(server)
+        .get('/api/issues/test')
+        .query({issue_title: 'Required'})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.isArray(res.body);
+          assert.property(res.body[0], 'issue_title');
+          assert.property(res.body[0], 'issue_text');
+          assert.property(res.body[0], 'created_on');
+          assert.property(res.body[0], 'updated_on');
+          assert.property(res.body[0], 'created_by');
+          assert.property(res.body[0], 'assigned_to');
+          assert.property(res.body[0], 'open');
+          assert.property(res.body[0], 'status_text');
+          assert.property(res.body[0], '_id');
+          res.body.forEach
+          assert.equal(res.body[0].issue_title, 'Required');
+          
+          done();
+          
+        });
       });
       
       test('Multiple filters (test for multiple fields you know will be in the db for a return)', function(done) {
