@@ -60,7 +60,8 @@ module.exports = function (app) {
     
     .put(function (req, res){
       var project = req.params.project;
-    
+      if (req.body.issue_title == undefined && req.body.issue_text == undefined && req.body.issue_title == undefined 
+          && req.body.issue_title == undefined && req.body.issue_title == undefined && req.body.issue_title == undefined && )
       
     })
     
