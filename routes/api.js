@@ -42,11 +42,9 @@ module.exports = function (app) {
         req.query.status_text !== undefined ? log = log.filter((d)=> d.status_text == req.query.status_text): null;
         req.query.open !== undefined ? log = log.filter((d)=> d.open == req.query.open): null;
         req.query.created_on !== undefined ? log = log.filter((d)=> d.created_on == req.query.created_on): null;
-        req.query.assigned_to !== undefined ? log = log.filter((d)=> d.assigned_to == req.query.updated_on): null;
-        req.query.assigned_to !== undefined ? log = log.filter((d)=> d.assigned_to == req.query.assigned_to): null;
-        
-       
-        res.send(data);
+        req.query.updated_on !== undefined ? log = log.filter((d)=> d.updated_on == req.query.updated_on): null;
+        req.query._id !== undefined ? log = log.filter((d)=> d._id == req.query._id): null;
+        res.send(log);
       })
     })
     
