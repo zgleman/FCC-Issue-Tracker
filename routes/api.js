@@ -34,6 +34,10 @@ module.exports = function (app) {
       var project = req.params.project;
       Issue.find({}, function(err, data){
         if (err) return (err);
+        var log = data;
+        req.query.from !== undefined ? log = log.filter((d)=> d.Date >= new Date(req.query.from)): null;
+        req.query.to !== undefined ? log = log.filter((d)=> d.Date <= new Date(req.query.to)): null;
+        req.query.limit !== undefined ? log = log.slice(0, req.query.limit): null;
         res.send(data);
       })
     })
