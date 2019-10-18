@@ -29,14 +29,36 @@ suite('Functional Tests', function() {
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
-          
-          //fill me in too!
-          
+          assert.equal(res.body.issue_title, 'Title');
+          assert.equal(res.body.issue_text, 'text');
+          assert.equal(res.body.created_by, 'Functional Test - Every field filled in');
+          assert.equal(res.body.assigned_to, 'Chai and Mocha');
+          assert.equal(res.body.status_text, 'In QA');
+          assert.equal(res.body.open, true);
+                
           done();
         });
       });
       
       test('Required fields filled in', function(done) {
+        chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'Required',
+          issue_text: 'Required',
+          created_by: 'Required fields filled in'
+        })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.issue_title, 'Required');
+          assert.equal(res.body.issue_text, 'Required');
+          assert.equal(res.body.created_by, 'Required fields filled in');
+          assert.equal(res.body.assigned_to, '');
+          assert.equal(res.body.status_text, '');
+          assert.equal(res.body.open, true);
+        
+          done();
+        })
         
       });
       
