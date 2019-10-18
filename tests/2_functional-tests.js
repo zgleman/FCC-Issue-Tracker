@@ -190,12 +190,23 @@ suite('Functional Tests', function() {
       test('Multiple filters (test for multiple fields you know will be in the db for a return)', function(done) {
         chai.request(server)
         .get('/api/issues/test')
-        .query({issue_title: 'Required', created_after: '2019-10-17')})
+        .query({issue_title: 'Required', created_after: '2019-10-17'})
         .end(function(err, res){
           assert.equal(res.status, 200);
           assert.isArray(res.body);
+          assert.property(res.body[0], 'issue_title');
+          assert.property(res.body[0], 'issue_text');
+          assert.property(res.body[0], 'created_on');
+          assert.property(res.body[0], 'updated_on');
+          assert.property(res.body[0], 'created_by');
+          assert.property(res.body[0], 'assigned_to');
+          assert.property(res.body[0], 'open');
+          assert.property(res.body[0], 'status_text');
+          assert.property(res.body[0], '_id');
+          res.body.forEach((d) => {assert.equal(d.issue_title, 'Required');});
+          res.body.forEach((d) => {assert.(d.created_on, d2);});
           
-          
+          done();
         });
       });
       
