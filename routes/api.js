@@ -50,7 +50,11 @@ module.exports = function (app) {
     
     .post(function (req, res){
       var project = req.params.project;
-      Issue.create({
+      if(req.body.issue_title == '' || req.body.issue_text == '' || req.body.created_by == ''){
+        res.json({error: 'Please submit required fields'});
+      } else
+    
+    Issue.create({
       issue_title:	req.body.issue_title,
       issue_text: req.body.issue_text,
       created_on:	new Date(),
@@ -61,11 +65,10 @@ module.exports = function (app) {
       status_text:	req.body.status_text || ""
       }, function(err, data){
         if (err) return res.json({error:'Error saving to database'});
+       
         res.json(data);
       });
-  
-    
-      
+
     })
     
     .put(function (req, res){
