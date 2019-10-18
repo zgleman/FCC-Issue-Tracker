@@ -35,9 +35,17 @@ module.exports = function (app) {
       Issue.find({}, function(err, data){
         if (err) return (err);
         var log = data;
-        req.query.from !== undefined ? log = log.filter((d)=> d.Date >= new Date(req.query.from)): null;
-        req.query.to !== undefined ? log = log.filter((d)=> d.Date <= new Date(req.query.to)): null;
-        req.query.limit !== undefined ? log = log.slice(0, req.query.limit): null;
+        req.query.issue_title !== undefined ? log = log.filter((d)=> d.issue_title == req.query.issue_title): null;
+        req.query.issue_text !== undefined ? log = log.filter((d)=> d.issue_text == req.query.issue_text): null;
+        req.query.created_by !== undefined ? log = log.filter((d)=> d.created_by == req.query.created_by): null;
+        req.query.assigned_to !== undefined ? log = log.filter((d)=> d.assigned_to == req.query.assigned_to): null;
+        req.query.status_text !== undefined ? log = log.filter((d)=> d.status_text == req.query.status_text): null;
+        req.query.open !== undefined ? log = log.filter((d)=> d.open == req.query.open): null;
+        req.query.created_on !== undefined ? log = log.filter((d)=> d.created_on == req.query.created_on): null;
+        req.query.assigned_to !== undefined ? log = log.filter((d)=> d.assigned_to == req.query.updated_on): null;
+        req.query.assigned_to !== undefined ? log = log.filter((d)=> d.assigned_to == req.query.assigned_to): null;
+        
+       
         res.send(data);
       })
     })

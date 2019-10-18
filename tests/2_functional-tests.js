@@ -66,7 +66,7 @@ suite('Functional Tests', function() {
       
       test('No filter', function(done) {
         chai.request(server)
-        .get('/api/issues/test')
+        .get('/api/issues/apitest')
         .query({})
         .end(function(err, res){
           assert.equal(res.status, 200);
