@@ -81,9 +81,17 @@ suite('Functional Tests', function() {
       
       test('No body', function(done) {
         chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'update1',
+          issue_text: 'update1',
+          created_by: 'update1'
+        })
+        .end(function(err, data){       
+        chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: '5da99c1008a5c800812de9ae',
+          _id: data._id,
           issue_title: '',
           issue_text: '',
           created_by: '',
@@ -97,13 +105,22 @@ suite('Functional Tests', function() {
           
           done();
         })
+        })
       });
       
       test('One field to update', function(done) {
         chai.request(server)
+        .post('/api/issues/test')
+        .send({
+          issue_title: 'update2',
+          issue_text: 'update2',
+          created_by: 'update2'
+        })
+        .end(function(err, data){
+        chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: '5da99c1008a5c800812de9ae',
+          _id: data._id,
           issue_title: '',
           issue_text: '',
           created_by: 'One Field to update',
@@ -113,9 +130,10 @@ suite('Functional Tests', function() {
         })
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.success, 'successfully updated 5da99c1008a5c800812de9ae');
+          assert.equal(res.body.success, 'successfully updated ' + data._id);
           
           done();
+        })
         })
       });
       
@@ -229,18 +247,21 @@ suite('Functional Tests', function() {
         chai.request(server)
         .post('/api/issues/test')
         .send({
-          _id: 'testTBD',
           issue_title: 'tbd',
           issue_text:'tbd',
           created_by:'tbd'
         })
-        .delete('/api/issues/test')
-        .send({_id: 'testTBD'})
-        .end(function(err, res){
-          assert.equal(res.body.success, 'deleted testTBD');
+        .end(function(err, data){
+          chai.request(server)
+          .delete('/api/issues/test')
+          .send({_id: data._id})
+          .end(function(err, res){
+          assert.equal(res.body.success, 'deleted ' + data._id);
           
           done();
         });
+        })
+        
           });
         })
       });
