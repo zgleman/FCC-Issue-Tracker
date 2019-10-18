@@ -229,17 +229,20 @@ suite('Functional Tests', function() {
         chai.request(server)
         .post('/api/issues/test')
         .send({
-          issue_title: '',
-          issue_text:'',
-          
+          _id: 'testTBD',
+          issue_title: 'tbd',
+          issue_text:'tbd',
+          created_by:'tbd'
         })
+        .delete('/api/issues/test')
+        .send({_id: 'testTBD'})
         .end(function(err, res){
-          assert.equal(res.status, 200);
-          assert.equal(res.body.error, 'Please submit required fields');
+          assert.equal(res.body.success, 'deleted testTBD');
+          
           done();
+        });
+          });
         })
       });
       
-    });
-
-});
+    
