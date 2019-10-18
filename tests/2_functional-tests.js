@@ -81,17 +81,9 @@ suite('Functional Tests', function() {
       
       test('No body', function(done) {
         chai.request(server)
-        .post('/api/issues/test')
-        .send({
-          issue_title: 'update1',
-          issue_text: 'update1',
-          created_by: 'update1'
-        })
-        .end(function(err, data){       
-        chai.request(server)
         .put('/api/issues/test')
         .send({
-          _id: data._id,
+          _id: '5da99c1008a5c800812de9ae',
           issue_title: '',
           issue_text: '',
           created_by: '',
@@ -105,33 +97,25 @@ suite('Functional Tests', function() {
           
           done();
         })
-        })
       });
       
       test('One field to update', function(done) {
         chai.request(server)
-        .post('/api/issues/test')
+        .put('/api/issues/test')
         .send({
-          issue_title: 'update2',
-          issue_text: 'update2',
-          created_by: 'update2'
+          _id: '5da99c1008a5c800812de9ae',
+          issue_title: '',
+          issue_text: '',
+          created_by: 'One Field to update',
+          assigned_to: '',
+          status_text: '',
+          open: undefined
         })
-        .end(function(err, data){
-          chai.request(server)
-          .put('/api/issues/test')
-          .send({
-            _id: data._id,
-            issue_title: '',
-            issue_text: '',
-            created_by: 'One Field to update',
-            assigned_to: '',
-            status_text: '',
-            open: undefined
-          })
-          .end(function(err, res){
-           
-            done();
-          })
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.success, 'successfully updated 5da99c1008a5c800812de9ae');
+          
+          done();
         })
       });
       
@@ -236,7 +220,6 @@ suite('Functional Tests', function() {
         .send({_id: ''
         })
         .end(function(err, res){
-          assert.equal(res.status, 200);
           assert.equal(res.body.error, '_id error');
           done();
         })
@@ -255,8 +238,7 @@ suite('Functional Tests', function() {
           .delete('/api/issues/test')
           .send({_id: data._id})
           .end(function(err, res){
-            assert.equal(res.status, 200);
-            assert.equal(res.body.success, 'deleted ' + data._id);
+          assert.equal(res.body.success, 'deleted ' + data._id);
           
           done();
         });
