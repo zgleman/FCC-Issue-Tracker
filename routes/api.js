@@ -14,7 +14,7 @@ var ObjectId = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 mongoose.connect(CONNECTION_STRING, {useNewUrlParser: true});
-
+var db = mongoose.connection;
 const Issue = mongoose.model('Issue', { 
 issue_title:	String,
 issue_text: String,
@@ -30,9 +30,7 @@ module.exports = function (app) {
 
   app.route('/api/issues/:project')
   
-    .get(function (req, res){
-      var project = req.params.project;
-      
+    .get(function (req, res){      
       Issue.find({}, function(err, data){
         if (err) return (err);
         var log = data;
