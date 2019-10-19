@@ -14,9 +14,8 @@ var ObjectId = require('mongodb').ObjectID;
 var mongoose = require('mongoose');
 const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 mongoose.connect(CONNECTION_STRING, {useNewUrlParser: true});
-var project= '';
-const Issue = mongoose.model('Issue', {
- 
+var project='';
+const Issue = mongoose.model('Issue', { 
 issue_title:	String,
 issue_text: String,
 created_on:	Date,
@@ -25,7 +24,7 @@ created_by:	String,
 assigned_to:	String,
 open:	Boolean,
 status_text:	String
-}, {collection: project});
+}, {collection: project.stringify});
 
 module.exports = function (app) {
 
@@ -33,6 +32,7 @@ module.exports = function (app) {
   
     .get(function (req, res){
       var project = req.params.project;
+      
       Issue.find({}, function(err, data){
         if (err) return (err);
         var log = data;
